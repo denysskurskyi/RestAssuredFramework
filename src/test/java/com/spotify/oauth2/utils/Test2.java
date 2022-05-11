@@ -8,10 +8,5 @@ public class Test2 {
 
     public void MasterPrint() {
         System.out.println("MasterPrint");
-
-        public void printTest1Message () {
-            System.out.println("Test 1 class");
-
-        }
     }
 }
