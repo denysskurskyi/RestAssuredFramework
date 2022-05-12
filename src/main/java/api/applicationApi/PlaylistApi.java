@@ -1,8 +1,8 @@
 package com.spotify.oauth2.api.applicationApi;
 
 import com.spotify.oauth2.api.RestResources;
-import com.spotify.oauth2.pojo.playlist.Playlist;
-import com.spotify.oauth2.utils.ConfigLoader;
+import models.playlist.Playlist;
+import utils.ConfigLoader;
 import io.restassured.response.Response;
 
 import static com.spotify.oauth2.api.Route.PLAYLISTS;

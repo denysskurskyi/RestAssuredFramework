@@ -1,6 +1,6 @@
 package com.spotify.oauth2.api;
 
-import com.spotify.oauth2.utils.ConfigLoader;
+import utils.ConfigLoader;
 import io.restassured.response.Response;
 
 import java.time.Instant;
