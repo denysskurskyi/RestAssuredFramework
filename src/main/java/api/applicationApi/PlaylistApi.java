@@ -1,30 +1,28 @@
-package com.spotify.oauth2.api.applicationApi;
+package api.applicationApi;
 
-import com.spotify.oauth2.api.RestResources;
+import api.RestResources;
+import api.Route;
+import api.TokenManager;
 import models.playlist.Playlist;
 import utils.ConfigLoader;
 import io.restassured.response.Response;
-
-import static com.spotify.oauth2.api.Route.PLAYLISTS;
-import static com.spotify.oauth2.api.Route.USERS;
-import static com.spotify.oauth2.api.TokenManager.getToken;
 
 public class PlaylistApi {
 
 
     public static Response post(Playlist requestPlaylistBody){
-        return RestResources.post(requestPlaylistBody, getToken(), USERS + "/" + ConfigLoader.getInstance().getUserId() + PLAYLISTS);
+        return RestResources.post(requestPlaylistBody, TokenManager.getToken(), Route.USERS + "/" + ConfigLoader.getInstance().getUserId() + Route.PLAYLISTS);
     }
 
     public static Response post(Playlist requestPlaylistBody, String token){
-        return RestResources.post(requestPlaylistBody, token, USERS + "/" + ConfigLoader.getInstance().getUserId() + PLAYLISTS);
+        return RestResources.post(requestPlaylistBody, token, Route.USERS + "/" + ConfigLoader.getInstance().getUserId() + Route.PLAYLISTS);
     }
 
     public static Response get(String playlistId){
-        return RestResources.get(getToken(), PLAYLISTS + "/" + playlistId);
+        return RestResources.get(TokenManager.getToken(), Route.PLAYLISTS + "/" + playlistId);
     }
 
     public static Response put(Playlist requestPlaylistBody, String playlistId){
-        return RestResources.put(requestPlaylistBody, getToken(),PLAYLISTS + "/" + playlistId);
+        return RestResources.put(requestPlaylistBody, TokenManager.getToken(), Route.PLAYLISTS + "/" + playlistId);
     }
 }

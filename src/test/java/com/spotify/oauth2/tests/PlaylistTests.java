@@ -1,11 +1,13 @@
 package com.spotify.oauth2.tests;
 
-import com.spotify.oauth2.api.StatusCode;
-import com.spotify.oauth2.api.applicationApi.PlaylistApi;
-import com.spotify.oauth2.pojo.error.Error;
-import com.spotify.oauth2.pojo.playlist.Playlist;
+import api.StatusCode;
+import api.applicationApi.PlaylistApi;
+import assertions.PlaylistAsserts;
+import io.restassured.response.ValidatableResponse;
+import models.error.Error;
+import models.playlist.Playlist;
 
-import com.spotify.oauth2.utils.DataLoader;
+import utils.DataLoader;
 import io.restassured.response.Response;
 import org.testng.annotations.Test;
 
@@ -16,38 +18,16 @@ public class PlaylistTests extends BaseTest{
 
     String expired_token = "11BQAzcXEIr2cqPwQ2v6ae3Y63T70ZCO9oSjAMPIqWGyv8OBiJqYBLkYY-jLXI7K8q8TI0JyTlM8fe2kR2UuIv4UxV5D8PTHO6T81XRFxoxwEgfxO_y5PfGFC91IuOoRkosBi7PtLN4RjZzkQ2rlpJJnm4XbUPVXVgoeffU6Tz44cDWUF0dvkH9blHoGGOAhWmzFk3DUXfnmFYjDOgwhXKuRb3G_GpxaBWxqPA6gHmLxJgzYgM";
 
-    public Playlist playlistBuilder(String name, String description, boolean _public){
-        return new Playlist()
-                .setName(name)
-                .setDescription(description)
-                .setPublic(_public);
-    }
-
-    public void assertPlaylistEqual(Playlist responsePlaylist, Playlist requestPlaylist){
-        assertThat(responsePlaylist.getName(), equalTo(requestPlaylist.getName()));
-        assertThat(responsePlaylist.getDescription(), equalTo(requestPlaylist.getDescription()));
-        assertThat(responsePlaylist.getPublic(), equalTo(requestPlaylist.getPublic()));
-    }
-
-    public void assertStatusCode(int actualStatusCode, StatusCode statusCode){
-        assertThat(actualStatusCode, equalTo(statusCode.getCode()));
-    }
-
-    public void assertError(Error responseError, StatusCode statusCode){
-        assertThat(responseError.getError().getStatus(), equalTo(statusCode.getCode()));
-        assertThat(responseError.getError().getMessage(), equalTo(statusCode.getMessage()));
-    }
-
-
+    PlaylistAsserts playlistAsserts = new PlaylistAsserts();
 
     @Test(description = "Create new playlist")
     public void createPlaylist(){
-        Playlist requestPlaylist = playlistBuilder("Playlist POJO", "Description to POJO playlist", false);
+        Playlist requestPlaylist = new Playlist("Playlist POJO", "Description to POJO playlist", false);
 
         Response response = PlaylistApi.post(requestPlaylist);
-        assertStatusCode(response.statusCode(), StatusCode.CODE_201);
 
-        assertPlaylistEqual(response.as(Playlist.class), requestPlaylist);
+        playlistAsserts.assertStatusCode(response.statusCode(), StatusCode.CODE_201);
+        playlistAsserts.assertPlaylistEqual(response.as(Playlist.class), requestPlaylist);
     }
 
     @Test(description = "Get playlist")
@@ -76,7 +56,7 @@ public class PlaylistTests extends BaseTest{
                 .setPublic(false);
 
         Response response = PlaylistApi.put(requestPlaylist, DataLoader.getInstance().getUpdatePlaylistId());
-        assertStatusCode(response.statusCode(), StatusCode.CODE_200);
+        playlistAsserts.assertStatusCode(response.statusCode(), StatusCode.CODE_200);
 //        assertThat(response.statusCode(), equalTo(StatusCode.CODE_200.getCode()));
     }
 
@@ -91,7 +71,7 @@ public class PlaylistTests extends BaseTest{
         Response response = PlaylistApi.post(requestPlaylist);
         assertThat(response.statusCode(), equalTo(StatusCode.CODE_400.getCode()));
 
-        assertError(response.as(Error.class), StatusCode.CODE_400);
+        playlistAsserts.assertErrorResponse(response.as(Error.class), StatusCode.CODE_400);
     }
 
     @Test

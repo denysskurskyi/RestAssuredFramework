@@ -1,4 +1,4 @@
-package com.spotify.oauth2.api;
+package api;
 
 public class Route {
 

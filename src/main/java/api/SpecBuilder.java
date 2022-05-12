@@ -1,4 +1,4 @@
-package com.spotify.oauth2.api;
+package api;
 
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;
@@ -7,8 +7,6 @@ import io.restassured.http.ContentType;
 import io.restassured.specification.RequestSpecification;
 import io.restassured.specification.ResponseSpecification;
 
-import static com.spotify.oauth2.api.Route.BASE_PATH;
-
 public class SpecBuilder {
 
 
@@ -16,7 +14,7 @@ public class SpecBuilder {
         return new RequestSpecBuilder()
 //                .setBaseUri(System.getProperty("BASE_URI"))
                 .setBaseUri("https://api.spotify.com")
-                .setBasePath(BASE_PATH)
+                .setBasePath(Route.BASE_PATH)
                 .setContentType(ContentType.JSON)
                 .log(LogDetail.ALL)
                 .build();

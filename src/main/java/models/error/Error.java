@@ -1,4 +1,4 @@
-package com.spotify.oauth2.pojo.error;
+package models.error;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 

@@ -1,4 +1,4 @@
-package com.spotify.oauth2.pojo.playlist;
+package models.playlist;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -24,6 +24,16 @@ public class Playlist {
     private Tracks tracks;
     private String type;
     private String uri;
+
+    public Playlist(){
+
+    }
+
+    public Playlist(String name, String description, boolean _public){
+        this.name = name;
+        this.description = description;
+        this._public = _public;
+    }
 
     public Boolean getCollaborative() {
         return collaborative;

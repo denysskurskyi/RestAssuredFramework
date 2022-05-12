@@ -1,4 +1,4 @@
-package com.spotify.oauth2.utils;
+package utils;
 
 import java.util.Properties;
 

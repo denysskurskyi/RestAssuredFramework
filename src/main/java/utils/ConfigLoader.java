@@ -1,6 +1,4 @@
-package com.spotify.oauth2.utils;
-
-import org.checkerframework.checker.units.qual.C;
+package utils;
 
 import java.util.Properties;
 

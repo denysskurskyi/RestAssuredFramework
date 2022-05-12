@@ -1,21 +1,17 @@
-package com.spotify.oauth2.api;
+package api;
 
-import io.restassured.http.ContentType;
+import io.restassured.RestAssured;
 import io.restassured.response.Response;
 
 import java.util.HashMap;
 
-import static com.spotify.oauth2.api.Route.API;
-import static com.spotify.oauth2.api.Route.TOKEN;
-import static com.spotify.oauth2.api.SpecBuilder.*;
-import static io.restassured.RestAssured.given;
+import static api.SpecBuilder.*;
 
 public class RestResources {
 
     public static Response post(Object requestBody, String token, String path){
-        return given(getRequestSpec())
+        return RestAssured.given(getRequestSpec())
                 .auth().oauth2(token)
-//                .header("Authorization", "Bearer " + token)
                 .body(requestBody).
         when()
                 .post(path).
@@ -25,8 +21,8 @@ public class RestResources {
     }
 
     public static Response get(String token, String path){
-        return given(getRequestSpec()).
-                header("Authorization", "Bearer " + token).
+        return RestAssured.given(getRequestSpec()).
+                auth().oauth2(token).
         when()
                 .get(path).
         then().spec(getResponseSpec())
@@ -35,7 +31,7 @@ public class RestResources {
     }
 
     public static Response put(Object requestBody, String token, String path){
-        return given(getRequestSpec())
+        return RestAssured.given(getRequestSpec())
                 .header("Authorization", "Bearer " + token)
                 .body(requestBody).
         when()
@@ -46,10 +42,10 @@ public class RestResources {
     }
 
     public static Response postAccount(HashMap<String, String> formParams){
-        return given(getAccountRequestSpec())
+        return RestAssured.given(getAccountRequestSpec())
                 .formParams(formParams).
         when()
-                .post(API + TOKEN).
+                .post(Route.API + Route.TOKEN).
         then()
                 .spec(getResponseSpec())
                 .extract()
